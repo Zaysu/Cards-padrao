@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>table</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="">
+    </head>
+    <body>
+        <style> 
+            .menu {
+                list-style: none;
+                padding: 0;
+                margin: 0;
+              }
+              
+              .menu li {
+                display: inline-block;
+                margin-right: 10px;
+              }
+              
+              .menu li a {
+                display: block;
+                padding: 5px;
+                background-color: #f2f2f2;
+                color: #333;
+                text-decoration: none;
+              }
+              
+              .menu li a.selected {
+                background-color: #9a2020;
+                color: #fff;
+              }
+              
+        </style>
+        <ul class="menu">
+            <li><a href="http://www.google.com.br">Item 1</a></li>
+            <li><a href="#">Item 2</a></li>
+            <li><a href="#">Item 3</a></li>
+            <li><a href="#">Item 4</a></li>
+            <li><a href="#">Item 5</a></li>
+          </ul>
+          
+        <script defer>
+            const item1 = document.querySelectorAll('.menu li a');
+            //const menuItems = document.querySelectorAll(item1, item2, item3);
+
+            item1.forEach(item => {
+            item.addEventListener('click', function(event) {
+                event.preventDefault();
+                item1.forEach(item => {
+                item.classList.remove('selected');
+                });
+                this.classList.add('selected');
+            });
+            });
+
+        </script>
+        <script src="" async defer>
+          // Obtém todos os itens do menu
+const menuItems = document.querySelectorAll('.menu li a');
+
+// Função para verificar a posição da rolagem
+function checkScrollPosition() {
+  // Obtém a posição da rolagem vertical
+  const scrollPosition = window.scrollY;
+
+  // Verifica cada item do menu
+  menuItems.forEach(item => {
+    const targetId = item.getAttribute('href').substring(1);
+    const targetElement = document.getElementById(targetId);
+
+    // Verifica se o elemento de destino existe e se sua posição está dentro da área visível
+    if (targetElement && targetElement.offsetTop <= scrollPosition) {
+      // Remove a classe "selected" de todos os itens do menu
+      menuItems.forEach(item => {
+        item.classList.remove('selected');
+      });
+
+      // Adiciona a classe "selected" ao item do menu correspondente ao elemento de destino
+      item.classList.add('selected');
+    }
+  });
+}
+
+// Adiciona um ouvinte de evento para verificar a posição da rolagem ao girar o scroll do mouse
+window.addEventListener('scroll', checkScrollPosition);
+
+        </script>
+    </body>
+</html>

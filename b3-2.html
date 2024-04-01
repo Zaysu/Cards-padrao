@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Exemplo de Menu com Scroll</title>
+  <style>
+    .menu {
+      position: fixed;
+      top: 0;
+      background-color: #f2f2f2;
+      padding: 10px;
+    }
+
+    .menu li a {
+      color: #333;
+      text-decoration: none;
+      padding: 5px 10px;
+    }
+
+    .menu li a.selected {
+      color: #ff0000;
+    }
+
+    .content {
+      height: 2000px; /* altura maior para gerar a barra de rolagem */
+    }
+  </style>
+</head>
+<body>
+  <ul class="menu">
+    <li><a href="#section1">Seção 1</a></li>
+    <li><a href="#section2">Seção 2</a></li>
+    <li><a href="#section3">Seção 3</a></li>
+    <li><a href="#section4">Seção 4</a></li>
+  </ul>
+
+  <div class="content">
+    <h2 id="section1">Seção 1</h2>
+    <p>Conteúdo da Seção 1</p>
+    <h2 id="section2">Seção 2</h2>
+    <p>Conteúdo da Seção 2</p>
+    <h2 id="section3">Seção 3</h2>
+    <p>Conteúdo da Seção 3</p>
+    <h2 id="section4">Seção 4</h2>
+    <p>Conteúdo da Seção 4</p>
+  </div>
+
+  <script>
+    const menuItems = document.querySelectorAll('.menu li a');
+
+    function checkScrollPosition() {
+      const scrollPosition = window.scrollY;
+
+      menuItems.forEach(item => {
+        const targetId = item.getAttribute('href').substring(1);
+        const targetElement = document.getElementById(targetId);
+
+        if (targetElement && targetElement.offsetTop <= scrollPosition) {
+          menuItems.forEach(menuItem => {
+            menuItem.classList.remove('selected');
+          });
+
+          item.classList.add('selected');
+        }
+      });
+    }
+
+    window.addEventListener('scroll', checkScrollPosition);
+  </script>
+</body>
+</html>

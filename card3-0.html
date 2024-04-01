@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Carrossel de Cards</title>
+  <style>
+    .carousel-container {
+      position: relative;
+      max-width: 600px; /* Ajuste conforme necessário */
+      margin: 0 auto;
+      overflow: hidden;
+    }
+
+    .carousel {
+      display: flex;
+      transition: transform 0.5s ease;
+    }
+
+    .card {
+      flex: 0 0 calc(100% / 3); /* Divide a largura do contêiner em 3 partes */
+      padding: 20px;
+      box-sizing: border-box;
+      border: 1px solid #ccc;
+      text-align: center;
+    }
+
+    .prev, .next {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background-color: rgba(0, 0, 0, 0.5);
+      color: white;
+      border: none;
+      cursor: pointer;
+      padding: 10px;
+      z-index: 2;
+    }
+
+    .prev {
+      left: 0;
+    }
+
+    .next {
+      right: 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="carousel-container">
+    <button id="prevBtn" class="prev" onclick="moveCards(-1)">&#10094;</button>
+    <div class="carousel">
+      <div class="card">Card 1</div>
+      <div class="card">Card 2</div>
+      <div class="card">Card 3</div>
+      <div class="card">Card 4</div>
+      <div class="card">Card 5</div>
+      <div class="card">Card 6</div>
+      <div class="card">Card 7</div>
+      <div class="card">Card 8</div>
+    </div>
+    <button id="nextBtn" class="next" onclick="moveCards(1)">&#10095;</button>
+  </div>
+  <script>
+    let currentIndex = 0;
+
+    function moveCards(direction) {
+      const cards = document.querySelector('.carousel');
+      const cardWidth = document.querySelector('.card').offsetWidth;
+
+      currentIndex = (currentIndex + direction * 3) % (cards.children.length / 3);
+      if (currentIndex < 0) {
+        currentIndex = Math.floor(cards.children.length / 3) - 1;
+      }
+
+      const offset = -1 * currentIndex * 3 * cardWidth;
+      cards.style.transform = `translateX(${offset}px)`;
+    }
+  </script>
+</body>
+</html>

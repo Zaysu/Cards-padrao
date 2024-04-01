@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Carrossel de Cards</title>
+  <style>
+    .carousel {
+        width: 600px;
+        height: 300px;
+        margin: 0 auto;
+        overflow: hidden;
+        position: relative;
+      }
+      
+      .carousel-inner {
+        width: max-content;
+        height: 100%;
+        display: flex;
+        transition: transform 0.5s ease;
+      }
+      
+      .carousel-card {
+        flex: 0 0 200px;
+        height: 100%;
+        padding: 20px;
+        box-sizing: border-box;
+        text-align: center;
+        background-color: #f2f2f2;
+      }
+      
+      .carousel-button {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 40px;
+        height: 40px;
+        background-color: transparent;
+        border: none;
+        cursor: pointer;
+        font-size: 24px;
+        font-weight: bold;
+        color: #ffffff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      
+      .carousel-button-left {
+        left: 10px;
+      }
+      
+      .carousel-button-right {
+        right: 10px;
+      }
+      
+      .carousel-indicators {
+        position: absolute;
+        bottom: 10px;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        justify-content: center;
+      }
+      
+      .carousel-indicator {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background-color: #ccc;
+        margin: 0 5px;
+        cursor: pointer;
+      }
+      
+      .carousel-indicator.active {
+        background-color: #555;
+      }
+      
+  </style>
+</head>
+<body>
+    <div class="carousel">
+        <div class="carousel-inner">
+          <div class="carousel-card">
+            <h2>Título 1</h2>
+            <p>Informações sobre o card 1.</p>
+          </div>
+          <div class="carousel-card">
+            <h2>Título 2</h2>
+            <p>Informações sobre o card 2.</p>
+          </div>
+          <div class="carousel-card">
+            <h2>Título 3</h2>
+            <p>Informações sobre o card 3.</p>
+          </div>
+          <!-- Repita os outros itens do carrossel aqui -->
+          <div class="carousel-card">
+            <h2>Título 1</h2>
+            <p>Informações sobre o card 1.</p>
+          </div>
+        </div>
+        <div class="carousel-buttons">
+          <div class="carousel-button carousel-button-left">&lt;</div>
+          <div class="carousel-button carousel-button-right">&gt;</div>
+        </div>
+        <div class="carousel-indicators"></div>
+      </div>
+      
+
+  <script>
+// Código JavaScript para controlar o carrossel
+const carouselInner = document.querySelector('.carousel-inner');
+const carouselCards = Array.from(document.querySelectorAll('.carousel-card'));
+const prevButton = document.querySelector('.carousel-button-left');
+const nextButton = document.querySelector('.carousel-button-right');
+const indicatorsContainer = document.querySelector('.carousel-indicators');
+const cardWidth = carouselCards[0].offsetWidth;
+const visibleCards = 1;
+const maxIndex = carouselCards.length - 1;
+let currentIndex = 0;
+
+// Cria as bolas indicadoras
+for (let i = 0; i <= maxIndex; i++) {
+  const indicator = document.createElement('div');
+  indicator.classList.add('carousel-indicator');
+  indicator.addEventListener('click', () => {
+    goToCard(i);
+  });
+  indicatorsContainer.appendChild(indicator);
+}
+
+// Atualiza a posição do carrossel
+const updateCarouselPosition = () => {
+  const translateX = -currentIndex * cardWidth * visibleCards;
+  carouselInner.style.transform = `translateX(${translateX}px)`;
+
+  // Atualiza a bola indicadora ativa
+  const indicators = Array.from(document.querySelectorAll('.carousel-indicator'));
+  indicators.forEach((indicator, index) => {
+    indicator.classList.toggle('active', index === currentIndex);
+  });
+};
+
+// Vai para o cartão especificado pelo índice
+const goToCard = (index) => {
+  if (index >= 0 && index <= maxIndex) {
+    currentIndex = index;
+    updateCarouselPosition();
+  }
+};
+
+// Avança para o próximo cartão
+const nextCard = () => {
+  currentIndex++;
+  if (currentIndex > maxIndex) {
+    currentIndex = 0;
+  }
+  updateCarouselPosition();
+};
+
+// Volta para o cartão anterior
+const prevCard = () => {
+  currentIndex--;
+  if (currentIndex < 0) {
+    currentIndex = maxIndex;
+  }
+  updateCarouselPosition();
+};
+
+// Event listeners dos botões
+nextButton.addEventListener('click', nextCard);
+prevButton.addEventListener('click', prevCard);
+
+// Atualiza a posição inicial
+updateCarouselPosition();
+
+// Verifica se o carrossel chegou à última bola e volta ao início
+carouselInner.addEventListener('transitionend', () => {
+  const lastCardIndex = carouselCards.length - visibleCards;
+  if (currentIndex >= lastCardIndex) {
+    currentIndex = 0;
+    updateCarouselPosition();
+  }
+});
+
+  </script>
+</body>
+</html>
